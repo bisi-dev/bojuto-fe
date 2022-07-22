@@ -102,7 +102,7 @@ export default class Dashboard extends Component {
             <footer className="sticky-footer">
               <div className="container my-auto">
                 <div className="copyright text-center my-auto">
-                  <span>Copyright © Project X 2022</span>
+                  <span>Copyright © Bojuto 2022</span>
                 </div>
               </div>
             </footer>

@@ -24,10 +24,10 @@ export default class Header extends Component {
     }
     return (
       <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
-        <TitleComponent title="Project X "></TitleComponent>
+        <TitleComponent title="Bojuto "></TitleComponent>
 
         <Link to={"#"} className="navbar-brand mr-1">
-          Project X
+          Bojuto
         </Link>
 
         <ul className="navbar-nav ml-auto ml-md-0">

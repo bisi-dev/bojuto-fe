@@ -43,7 +43,7 @@ export default class Login extends Component {
     const isLoading = this.state.isLoading;
     return (
       <div className="container">
-        <TitleComponent title="Project X Login "></TitleComponent>
+        <TitleComponent title="Bojuto Login "></TitleComponent>
         <div className="card card-login mx-auto mt-5">
           <div className="card-header">Login</div>
           <div className="card-body">
