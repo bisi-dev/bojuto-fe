@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import TitleComponent from "./title";
 
-export default class Login extends Component {
+export default class Register extends Component {
   state = {
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
     redirect: false,
@@ -18,24 +19,43 @@ export default class Login extends Component {
   handlePwdChange = (event) => {
     this.setState({ password: event.target.value });
   };
+  handleFirstNameChange = (event) => {
+    this.setState({ firstname: event.target.value });
+  };
+  handleLastNameChange = (event) => {
+    this.setState({ lastname: event.target.value });
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ isLoading: true });
-    const url = "https://bojuto.lm.r.appspot.com/api/users/login";
+    const url = "https://bojuto.lm.r.appspot.com/api/users";
     const email = this.state.email;
     const password = this.state.password;
+    const firstname = this.state.firstname;
+    const lastname = this.state.lastname;
+
     let request = {
+      firstname: firstname,
+      lastname: lastname,
       email: email,
+      phoneNumber: "+2348000000000",
       password: password,
     };
+
+    console.log(request);
+
     axios
       .post(url, request)
       .then((result) => {
+        this.setState({ isLoading: false });
+        console.log(result);
         if (result.status === 200) {
+          this.setState({ redirect: true, authError: true });
           localStorage.setItem("token", result.data.token);
           this.setState({ redirect: true, isLoading: false });
-          localStorage.setItem("isLoggedIn", true);
+        } else {
+          this.setState({ redirect: false, authError: true });
         }
       })
       .catch((error) => {
@@ -54,19 +74,48 @@ export default class Login extends Component {
     const isLoading = this.state.isLoading;
     return (
       <div className="container">
-        <TitleComponent title="Bojuto Login "></TitleComponent>
         <div className="card card-login mx-auto mt-5">
-          <div className="card-header">Login</div>
+          <div className="card-header">Register</div>
           <div className="card-body">
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <div className="form-label-group">
                   <input
+                    type="text"
+                    id="inputFName"
+                    className="form-control"
+                    placeholder="First Name"
+                    name="firstname"
+                    onChange={this.handleFirstNameChange}
+                    required
+                  />
+                  <label htmlFor="inputFName">First Name</label>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <div className="form-label-group">
+                  <input
+                    type="text"
+                    id="inputLName"
+                    className="form-control"
+                    placeholder="Last name"
+                    name="lastname"
+                    onChange={this.handleLastNameChange}
+                    required
+                  />
+                  <label htmlFor="inputLName">Last Name</label>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <div className="form-label-group">
+                  <input
+                    id="inputEmail"
                     className={
                       "form-control " +
                       (this.state.authError ? "is-invalid" : "")
                     }
-                    id="inputEmail"
                     placeholder="Email address"
                     type="text"
                     name="email"
@@ -76,7 +125,7 @@ export default class Login extends Component {
                   />
                   <label htmlFor="inputEmail">Email address</label>
                   <div className="invalid-feedback">
-                    Please provide a valid Email.
+                    Please provide a valid Email or Email Exists already
                   </div>
                 </div>
               </div>
@@ -84,10 +133,7 @@ export default class Login extends Component {
                 <div className="form-label-group">
                   <input
                     type="password"
-                    className={
-                      "form-control " +
-                      (this.state.authError ? "is-invalid" : "")
-                    }
+                    className="form-control"
                     id="inputPassword"
                     placeholder="******"
                     name="password"
@@ -95,26 +141,16 @@ export default class Login extends Component {
                     required
                   />
                   <label htmlFor="inputPassword">Password</label>
-                  <div className="invalid-feedback">
-                    Please provide a valid Password.
-                  </div>
                 </div>
               </div>
-              <div className="form-group">
-                <div className="checkbox">
-                  <label>
-                    <input type="checkbox" value="remember-me" />
-                    Remember Password
-                  </label>
-                </div>
-              </div>
+
               <div className="form-group">
                 <button
                   className="btn btn-primary btn-block"
                   type="submit"
                   disabled={this.state.isLoading ? true : false}
                 >
-                  Login &nbsp;&nbsp;&nbsp;
+                  Register &nbsp;&nbsp;&nbsp;
                   {isLoading ? (
                     <span
                       className="spinner-border spinner-border-sm"
@@ -128,11 +164,11 @@ export default class Login extends Component {
               </div>
             </form>
             <div className="text-center">
-              <Link className="d-block small mt-3" to={"register"}>
-                Register an Account
+              <Link className="d-block small mt-3" to={""}>
+                Login to Your Account
               </Link>
               <br></br>
-              <Link className="d-block small" to={"register"}>
+              <Link className="d-block small" to={"#"}>
                 Forgot Password?
               </Link>
             </div>
