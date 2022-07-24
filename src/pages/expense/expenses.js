@@ -1,20 +1,20 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import Header from "../components/header";
-import Sidebar from "../components/sidebar";
+import Header from "../../components/header";
+import Sidebar from "../../components/sidebar";
 
 export default class Index extends Component {
   state = {
     total: 0,
-    customers: [],
+    expenses: [],
     isLoading: false,
     error: false,
   };
 
   constructor(props) {
     super(props);
-    this.url = "https://bojuto.lm.r.appspot.com/api/customers";
+    this.url = "https://bojuto.lm.r.appspot.com/api/expenses";
     this.token = localStorage.getItem("token");
   }
 
@@ -27,13 +27,13 @@ export default class Index extends Component {
     axios
       .get(this.url, config)
       .then((response) => {
-        const customers = response.data.customers;
+        const expenses = response.data.expenses;
         const total = response.data.total;
-        this.setState({ customers });
+        this.setState({ expenses });
         this.setState({ total });
       })
       .catch((error) => {
-        this.setState({ error: true });
+        // this.setState({ error: true });
         console.log(error);
       });
   }
@@ -74,52 +74,49 @@ export default class Index extends Component {
                 <li className="breadcrumb-item">
                   <Link to={"/dashboard"}>Dashboard</Link>
                 </li>
-                <li className="breadcrumb-item active">Customers</li>
+                <li className="breadcrumb-item active">Expenses</li>
                 <li className="ml-auto">
-                  <Link to={"customer-add"}>Add Customer</Link>
+                  <Link to={"expenses-add"}>Add Expense</Link>
                 </li>
               </ol>
               <div className="card-footer small text-muted">
-                {this.state.total} customers
+                {this.state.total} expenses
               </div>
               <div className="card mb-3">
                 <div className="card-header">
                   <i className="fas fa-table"></i>
-                  &nbsp;&nbsp;Customers List
+                  &nbsp;&nbsp;Expenses List
                 </div>
                 <div className="card-body">
                   <table className="table table-bordered">
                     <thead>
                       <tr>
                         <th>id</th>
-                        <th>Name</th>
-                        <th>Phone No</th>
-                        <th>Email</th>
-                        <th>Location</th>
+                        <th>Description</th>
+                        <th>Transaction Amount</th>
+                        <th>Date</th>
                         <th className="text-center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.customers.map((customers, index) => (
-                        <tr key={customers.id}>
+                      {this.state.expenses.map((expenses, index) => (
+                        <tr key={expenses.id}>
                           <td>{index + 1}</td>
-                          <td>{customers.name}</td>
-                          <td>{customers.phone_number}</td>
-                          <td>{customers.email}</td>
-                          <td>{customers.address}</td>
+                          <td>{expenses.description}</td>
+                          <td>{expenses.amount}</td>
+                          <td>{expenses.transaction_date}</td>
                           <td className="text-center">
                             <Link
                               className="btn btn-sm btn-info"
                               to={{
-                                pathname: "customer-edit/" + customers.id,
-                                // search: "/" + customers.id,
+                                pathname: "expenses-edit/" + expenses.id,
                               }}
                             >
                               Edit
                             </Link>
                             &nbsp; | &nbsp;
                             <button
-                              value={customers.id}
+                              value={expenses.id}
                               className="btn btn-sm btn-danger"
                               onClick={this.handleClickDelete}
                             >

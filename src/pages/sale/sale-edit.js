@@ -1,41 +1,67 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import Header from "../components/header";
-import Sidebar from "../components/sidebar";
+import Header from "../../components/header";
+import Sidebar from "../../components/sidebar";
 
-export default class AddPage extends Component {
+export default class EditPage extends Component {
+  constructor(props) {
+    super(props);
+    this.url = "https://bojuto.lm.r.appspot.com/api/sales";
+    this.token = localStorage.getItem("token");
+  }
+
   state = {
+    id: this.props.match.params.id,
     redirect: false,
-    error: false,
     isLoading: false,
+    error: false,
   };
+
+  componentDidMount() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    axios
+      .get(this.url + "/" + this.state.id, config)
+      .then((response) => {
+        const sale = response.data.sale;
+        document.getElementById("inputDescription").value = sale.description;
+        document.getElementById("inputAmount").value = sale.amount;
+        document.getElementById("inputDate").value = sale.transaction_date;
+      })
+      .catch((error) => {
+        this.setState({ error: true });
+        console.log(error);
+      });
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ isLoading: true });
-    const token = localStorage.getItem("token");
-    const url = "https://bojuto.lm.r.appspot.com/api/customers";
-    const name = document.getElementById("inputName").value;
-    const phone = document.getElementById("inputPhone").value;
-    const email = document.getElementById("inputEmail").value;
-    const address = document.getElementById("inputAddress").value;
+    const url = "https://bojuto.lm.r.appspot.com/api/sales/" + this.state.id;
+    const description = document.getElementById("inputDescription").value;
+    const amount = document.getElementById("inputAmount").value;
+    const transactionDate = document.getElementById("inputDate").value;
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${this.token}`,
       },
     };
 
     let request = {
-      email: email,
-      phoneNumber: phone,
-      name: name,
-      address: address,
+      description: description,
+      amount: amount,
+      transactionDate: transactionDate,
+      customerId: 1,
     };
     axios
-      .post(url, request, config)
+      .put(url, request, config)
       .then((result) => {
-        if (result.status === 201) {
+        if (result.status === 200) {
           this.setState({ redirect: true, isLoading: false });
         }
       })
@@ -45,15 +71,15 @@ export default class AddPage extends Component {
       });
   };
 
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to="/customer" />;
-    }
-  };
-
   renderError = () => {
     if (this.state.error) {
       return <Redirect to="/notfound" />;
+    }
+  };
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to="/sales" />;
     }
   };
 
@@ -71,14 +97,14 @@ export default class AddPage extends Component {
                   <Link to={"/dashboard"}>Dashboard</Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <Link to={"/customer"}>Customer</Link>
+                  <Link to={"/sales"}>Sales</Link>
                 </li>
-                <li className="breadcrumb-item active">Add</li>
+                <li className="breadcrumb-item active">Edit</li>
               </ol>
             </div>
             <div className="container-fluid">
               <div className="card mx-auto">
-                <div className="card-header">Customer Add</div>
+                <div className="card-header">Sale Edit</div>
                 <div className="card-body">
                   <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
@@ -87,25 +113,27 @@ export default class AddPage extends Component {
                           <div className="form-label-group">
                             <input
                               type="text"
-                              id="inputName"
+                              id="inputDescription"
                               className="form-control"
-                              placeholder="Enter name"
+                              placeholder="Enter Description"
                               required="required"
                               autoFocus="autofocus"
                             />
-                            <label htmlFor="inputName">Enter name</label>
+                            <label htmlFor="inputDescription">
+                              Enter Description
+                            </label>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-label-group">
                             <input
-                              type="text"
-                              id="inputPhone"
+                              type="number"
+                              id="inputAmount"
                               className="form-control"
-                              placeholder="Enter Phone"
+                              placeholder="Enter Amount"
                               required="required"
                             />
-                            <label htmlFor="inputPhone">Enter phone</label>
+                            <label htmlFor="inputAmount">Enter Amount</label>
                           </div>
                         </div>
                       </div>
@@ -115,25 +143,13 @@ export default class AddPage extends Component {
                         <div className="col-md-6">
                           <div className="form-label-group">
                             <input
-                              type="email"
-                              id="inputEmail"
+                              type="date"
+                              id="inputDate"
                               className="form-control"
                               placeholder="Email address"
                               required="required"
                             />
-                            <label htmlFor="inputEmail">Email address</label>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-label-group">
-                            <input
-                              type="text"
-                              id="inputAddress"
-                              className="form-control"
-                              placeholder="Enter Location"
-                              required="required"
-                            />
-                            <label htmlFor="inputAddress">Enter Address</label>
+                            <label htmlFor="inputDate">Enter Date</label>
                           </div>
                         </div>
                       </div>
@@ -143,7 +159,7 @@ export default class AddPage extends Component {
                       type="submit"
                       disabled={this.state.isLoading ? true : false}
                     >
-                      Add Customer &nbsp;&nbsp;&nbsp;
+                      Update Sale &nbsp;&nbsp;&nbsp;
                       {isLoading ? (
                         <span
                           className="spinner-border spinner-border-sm"
@@ -164,9 +180,7 @@ export default class AddPage extends Component {
             <footer className="sticky-footer">
               <div className="container my-auto">
                 <div className="copyright text-center my-auto">
-                  <span>
-                    Copyright © Bojuto <div>{new Date().getFullYear()}</div>
-                  </span>
+                  <span>Copyright © Bojuto 2022</span>
                 </div>
               </div>
             </footer>

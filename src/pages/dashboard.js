@@ -1,9 +1,44 @@
+import axios from "axios";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 
 export default class Dashboard extends Component {
+  state = {
+    totalCustomers: 0,
+    totalExpenses: 0,
+    totalSales: 0,
+  };
+
+  constructor(props) {
+    super(props);
+    this.urlCustomers = "https://bojuto.lm.r.appspot.com/api/customers";
+    this.urlExpenses = "https://bojuto.lm.r.appspot.com/api/expenses";
+    this.urlSales = "https://bojuto.lm.r.appspot.com/api/sales";
+    this.token = localStorage.getItem("token");
+  }
+
+  componentDidMount() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    };
+    axios.get(this.urlCustomers, config).then((response) => {
+      const totalCustomers = response.data.total;
+      this.setState({ totalCustomers });
+    });
+    axios.get(this.urlExpenses, config).then((response) => {
+      const totalExpenses = response.data.total;
+      this.setState({ totalExpenses });
+    });
+    axios.get(this.urlSales, config).then((response) => {
+      const totalSales = response.data.total;
+      this.setState({ totalSales });
+    });
+  }
+
   render() {
     return (
       <div>
@@ -26,11 +61,13 @@ export default class Dashboard extends Component {
                       <div className="card-body-icon">
                         <i className="fas fa-fw fa-person-booth"></i>
                       </div>
-                      <div className="mr-5">0 Customers</div>
+                      <div className="mr-5">
+                        {this.state.totalCustomers} Customers
+                      </div>
                     </div>
                     <Link
                       className="card-footer text-white clearfix small z-1"
-                      to={"#"}
+                      to={"customer"}
                     >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
@@ -45,7 +82,7 @@ export default class Dashboard extends Component {
                       <div className="card-body-icon">
                         <i className="fas fa-fw fa-list"></i>
                       </div>
-                      <div className="mr-5">0 Products</div>
+                      <div className="mr-5">Products</div>
                     </div>
                     <Link
                       className="card-footer text-white clearfix small z-1"
@@ -64,11 +101,13 @@ export default class Dashboard extends Component {
                       <div className="card-body-icon">
                         <i className="fas fa-fw fa-shopping-cart"></i>
                       </div>
-                      <div className="mr-5">0 Orders</div>
+                      <div className="mr-5">
+                        {this.state.totalExpenses} Expenses
+                      </div>
                     </div>
                     <Link
                       className="card-footer text-white clearfix small z-1"
-                      to="#"
+                      to="sales"
                     >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
@@ -83,11 +122,11 @@ export default class Dashboard extends Component {
                       <div className="card-body-icon">
                         <i className="fas fa-fw fa-life-ring"></i>
                       </div>
-                      <div className="mr-5">0 Sold</div>
+                      <div className="mr-5">{this.state.totalSales} Sales</div>
                     </div>
                     <Link
                       className="card-footer text-white clearfix small z-1"
-                      to="#"
+                      to="sales"
                     >
                       <span className="float-left">View Details</span>
                       <span className="float-right">

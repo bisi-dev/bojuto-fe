@@ -18,20 +18,20 @@ export default class Sidebar extends Component {
               <span>&nbsp;Customers</span>
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to={"/dashboard"} className="nav-link">
+          <li className="nav-item active">
+            <Link to={"/expenses"} className="nav-link">
               <i className="fas fa-fw fa-file-archive"></i>
-              <span>&nbsp;Inventory</span>
+              <span>&nbsp;Expenses</span>
             </Link>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link to={"/dashboard"} className="nav-link">
               <i className="fas fa-fw fa-table"></i>
               <span>&nbsp;Transactions</span>
             </Link>
-          </li>
-          <li className="nav-item">
-            <Link to={"/dashboard"} className="nav-link">
+          </li> */}
+          <li className="nav-item active">
+            <Link to={"/sales"} className="nav-link">
               <i className="fas fa-fw fa-chart-area"></i>
               <span>&nbsp;Sales Report</span>
             </Link>

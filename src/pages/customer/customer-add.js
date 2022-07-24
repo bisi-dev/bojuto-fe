@@ -1,57 +1,28 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import Header from "../components/header";
-import Sidebar from "../components/sidebar";
+import Header from "../../components/header";
+import Sidebar from "../../components/sidebar";
 
-export default class EditPage extends Component {
-  constructor(props) {
-    super(props);
-    this.url = "https://bojuto.lm.r.appspot.com/api/customers";
-    this.token = localStorage.getItem("token");
-  }
-
+export default class AddPage extends Component {
   state = {
-    id: this.props.match.params.id,
     redirect: false,
-    isLoading: false,
     error: false,
+    isLoading: false,
   };
-
-  componentDidMount() {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-      },
-    };
-
-    axios
-      .get(this.url + "/" + this.state.id, config)
-      .then((response) => {
-        const customer = response.data;
-        document.getElementById("inputName").value = customer.name;
-        document.getElementById("inputPhone").value = customer.phoneNumber;
-        document.getElementById("inputEmail").value = customer.email;
-        document.getElementById("inputAddress").value = customer.address;
-      })
-      .catch((error) => {
-        this.setState({ error: true });
-        console.log(error);
-      });
-  }
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ isLoading: true });
-    const url =
-      "https://bojuto.lm.r.appspot.com/api/customers/" + this.state.id;
+    const token = localStorage.getItem("token");
+    const url = "https://bojuto.lm.r.appspot.com/api/customers";
     const name = document.getElementById("inputName").value;
     const phone = document.getElementById("inputPhone").value;
     const email = document.getElementById("inputEmail").value;
     const address = document.getElementById("inputAddress").value;
     const config = {
       headers: {
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -62,7 +33,7 @@ export default class EditPage extends Component {
       address: address,
     };
     axios
-      .put(url, request, config)
+      .post(url, request, config)
       .then((result) => {
         if (result.status === 201) {
           this.setState({ redirect: true, isLoading: false });
@@ -74,15 +45,15 @@ export default class EditPage extends Component {
       });
   };
 
-  renderError = () => {
-    if (this.state.error) {
-      return <Redirect to="/notfound" />;
-    }
-  };
-
   renderRedirect = () => {
     if (this.state.redirect) {
       return <Redirect to="/customer" />;
+    }
+  };
+
+  renderError = () => {
+    if (this.state.error) {
+      return <Redirect to="/notfound" />;
     }
   };
 
@@ -102,12 +73,12 @@ export default class EditPage extends Component {
                 <li className="breadcrumb-item">
                   <Link to={"/customer"}>Customer</Link>
                 </li>
-                <li className="breadcrumb-item active">Edit</li>
+                <li className="breadcrumb-item active">Add</li>
               </ol>
             </div>
             <div className="container-fluid">
               <div className="card mx-auto">
-                <div className="card-header">Customer Edit</div>
+                <div className="card-header">Customer Add</div>
                 <div className="card-body">
                   <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
@@ -134,7 +105,7 @@ export default class EditPage extends Component {
                               placeholder="Enter Phone"
                               required="required"
                             />
-                            <label htmlFor="inputPhone">Enter Phone</label>
+                            <label htmlFor="inputPhone">Enter phone</label>
                           </div>
                         </div>
                       </div>
@@ -172,7 +143,7 @@ export default class EditPage extends Component {
                       type="submit"
                       disabled={this.state.isLoading ? true : false}
                     >
-                      Update Customer &nbsp;&nbsp;&nbsp;
+                      Add Customer &nbsp;&nbsp;&nbsp;
                       {isLoading ? (
                         <span
                           className="spinner-border spinner-border-sm"
@@ -193,7 +164,9 @@ export default class EditPage extends Component {
             <footer className="sticky-footer">
               <div className="container my-auto">
                 <div className="copyright text-center my-auto">
-                  <span>Copyright © Bojuto 2022</span>
+                  <span>
+                    Copyright © Bojuto <div>{new Date().getFullYear()}</div>
+                  </span>
                 </div>
               </div>
             </footer>
