@@ -26,7 +26,7 @@ export default class Dashboard extends Component {
                       <div className="card-body-icon">
                         <i className="fas fa-fw fa-person-booth"></i>
                       </div>
-                      <div className="mr-5">10 Customers</div>
+                      <div className="mr-5">0 Customers</div>
                     </div>
                     <Link
                       className="card-footer text-white clearfix small z-1"
@@ -45,7 +45,7 @@ export default class Dashboard extends Component {
                       <div className="card-body-icon">
                         <i className="fas fa-fw fa-list"></i>
                       </div>
-                      <div className="mr-5">5 Products</div>
+                      <div className="mr-5">0 Products</div>
                     </div>
                     <Link
                       className="card-footer text-white clearfix small z-1"
@@ -64,7 +64,7 @@ export default class Dashboard extends Component {
                       <div className="card-body-icon">
                         <i className="fas fa-fw fa-shopping-cart"></i>
                       </div>
-                      <div className="mr-5">5 Orders</div>
+                      <div className="mr-5">0 Orders</div>
                     </div>
                     <Link
                       className="card-footer text-white clearfix small z-1"
@@ -83,7 +83,7 @@ export default class Dashboard extends Component {
                       <div className="card-body-icon">
                         <i className="fas fa-fw fa-life-ring"></i>
                       </div>
-                      <div className="mr-5">35 Sold</div>
+                      <div className="mr-5">0 Sold</div>
                     </div>
                     <Link
                       className="card-footer text-white clearfix small z-1"

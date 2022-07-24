@@ -12,8 +12,8 @@ export default class Sidebar extends Component {
               <span>&nbsp;Home</span>
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to={"/dashboard"} className="nav-link">
+          <li className="nav-item active">
+            <Link to={"/customer"} className="nav-link">
               <i className="fas fa-fw fa-person-booth"></i>
               <span>&nbsp;Customers</span>
             </Link>
