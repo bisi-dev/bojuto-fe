@@ -88,48 +88,50 @@ export default class Index extends Component {
                   &nbsp;&nbsp;Customers List
                 </div>
                 <div className="card-body">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>id</th>
-                        <th>Name</th>
-                        <th>Phone No</th>
-                        <th>Email</th>
-                        <th>Location</th>
-                        <th className="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.customers.map((customers, index) => (
-                        <tr key={customers.id}>
-                          <td>{index + 1}</td>
-                          <td>{customers.name}</td>
-                          <td>{customers.phone_number}</td>
-                          <td>{customers.email}</td>
-                          <td>{customers.address}</td>
-                          <td className="text-center">
-                            <Link
-                              className="btn btn-sm btn-info"
-                              to={{
-                                pathname: "customer-edit/" + customers.id,
-                                // search: "/" + customers.id,
-                              }}
-                            >
-                              Edit
-                            </Link>
-                            &nbsp; | &nbsp;
-                            <button
-                              value={customers.id}
-                              className="btn btn-sm btn-danger"
-                              onClick={this.handleClickDelete}
-                            >
-                              Delete
-                            </button>
-                          </td>
+                  <div class="table-responsive">
+                    <table className="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>id</th>
+                          <th>Name</th>
+                          <th>Phone No</th>
+                          <th>Email</th>
+                          <th>Location</th>
+                          <th className="text-center">Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {this.state.customers.map((customers, index) => (
+                          <tr key={customers.id}>
+                            <td>{index + 1}</td>
+                            <td>{customers.name}</td>
+                            <td>{customers.phone_number}</td>
+                            <td>{customers.email}</td>
+                            <td>{customers.address}</td>
+                            <td className="text-center">
+                              <Link
+                                className="btn btn-sm btn-info"
+                                to={{
+                                  pathname: "customer-edit/" + customers.id,
+                                  // search: "/" + customers.id,
+                                }}
+                              >
+                                Edit
+                              </Link>
+                              &nbsp; | &nbsp;
+                              <button
+                                value={customers.id}
+                                className="btn btn-sm btn-danger"
+                                onClick={this.handleClickDelete}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                   {this.renderError()}
                 </div>
               </div>

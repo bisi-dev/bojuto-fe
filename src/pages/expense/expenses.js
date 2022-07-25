@@ -88,45 +88,47 @@ export default class Index extends Component {
                   &nbsp;&nbsp;Expenses List
                 </div>
                 <div className="card-body">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>id</th>
-                        <th>Description</th>
-                        <th>Transaction Amount</th>
-                        <th>Date</th>
-                        <th className="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.expenses.map((expenses, index) => (
-                        <tr key={expenses.id}>
-                          <td>{index + 1}</td>
-                          <td>{expenses.description}</td>
-                          <td>{expenses.amount}</td>
-                          <td>{expenses.transaction_date}</td>
-                          <td className="text-center">
-                            <Link
-                              className="btn btn-sm btn-info"
-                              to={{
-                                pathname: "expenses-edit/" + expenses.id,
-                              }}
-                            >
-                              Edit
-                            </Link>
-                            &nbsp; | &nbsp;
-                            <button
-                              value={expenses.id}
-                              className="btn btn-sm btn-danger"
-                              onClick={this.handleClickDelete}
-                            >
-                              Delete
-                            </button>
-                          </td>
+                  <div class="table-responsive">
+                    <table className="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>id</th>
+                          <th>Description</th>
+                          <th>Transaction Amount</th>
+                          <th>Date</th>
+                          <th className="text-center">Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {this.state.expenses.map((expenses, index) => (
+                          <tr key={expenses.id}>
+                            <td>{index + 1}</td>
+                            <td>{expenses.description}</td>
+                            <td>{expenses.amount}</td>
+                            <td>{expenses.transaction_date}</td>
+                            <td className="text-center">
+                              <Link
+                                className="btn btn-sm btn-info"
+                                to={{
+                                  pathname: "expenses-edit/" + expenses.id,
+                                }}
+                              >
+                                Edit
+                              </Link>
+                              &nbsp; | &nbsp;
+                              <button
+                                value={expenses.id}
+                                className="btn btn-sm btn-danger"
+                                onClick={this.handleClickDelete}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                   {this.renderError()}
                 </div>
               </div>
