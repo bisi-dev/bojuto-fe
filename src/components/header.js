@@ -30,7 +30,9 @@ export default class Header extends Component {
           Bojuto
         </Link>
 
-        <ul className="navbar-nav ml-auto ml-md-0">
+        <br></br>
+
+        <ul className="navbar-nav ml-auto ml-md-16">
           <li className="nav-item dropdown no-arrow">
             <Link
               to={"#"}
@@ -47,13 +49,6 @@ export default class Header extends Component {
               className="dropdown-menu dropdown-menu-right"
               aria-labelledby="userDropdown"
             >
-              <Link to={"#"} className="dropdown-item">
-                Settings
-              </Link>
-              <Link to={"#"} className="dropdown-item">
-                Activity Log
-              </Link>
-              <div className="dropdown-divider"></div>
               <Link
                 to={"#"}
                 onClick={this.handleClickLogout}
