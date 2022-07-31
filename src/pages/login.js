@@ -131,10 +131,6 @@ export default class Login extends Component {
               <Link className="d-block small mt-3" to={"register"}>
                 Register an Account
               </Link>
-              <br></br>
-              <Link className="d-block small" to={"register"}>
-                Forgot Password?
-              </Link>
             </div>
           </div>
         </div>
